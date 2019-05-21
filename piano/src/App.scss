@@ -1,0 +1,28 @@
+#buttons {
+  margin-bottom: 10px;
+  &.STOP {
+    &>.stop,&>.pause {
+      display: none;
+    }
+  }
+  &.RECORDING {
+    &>.reproduction, &>.start {
+      display: none;
+    }
+  }
+  &.PLAYING {
+    &>.record, &>.start {
+      display: none;
+    }
+  }
+  &.PAUSED {
+    &>.record, &>.pause {
+      display: none;
+    }
+  }
+}
+
+.PianoDarkTheme .ReactPiano__Key--accidental {
+  background: #025d7d;
+  border: 1px solid #888;
+}
