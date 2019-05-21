@@ -1,12 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server');
 
-const songs = [
-    {
-        id: 1,
-        title: 'Empty song',
-        events: [],
-    }
-];
+const songs = [];
 
 const typeDefs = gql`
     type Event {
