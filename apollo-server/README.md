@@ -15,7 +15,10 @@ query {
     songs {
         id
         title
-        keysPlayed
+       events{
+        activeNotes
+        duration
+      }
     }
 }
 ```
@@ -24,7 +27,7 @@ To add a song:
 mutation {
     addSong(title: "Some new song", keysPlayed: ["D", "E", "F"]) {
         title
-        keysPlayed
+        events
     }
 }
 ```

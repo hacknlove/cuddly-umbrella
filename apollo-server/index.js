@@ -3,16 +3,21 @@ const { ApolloServer, gql } = require('apollo-server');
 const songs = [
     {
         id: 1,
-        title: 'Some song title',
-        keysPlayed: [ 'C', 'D', 'E'],
+        title: 'Empty song',
+        events: [],
     }
 ];
 
 const typeDefs = gql`
+    type Event {
+        activeNotes: [Int],
+        duration: Int
+    }
+
     type Song {
         id: ID!
         title: String
-        keysPlayed: [String]
+        events: [Event]
     }
 
     type Query {
@@ -20,7 +25,7 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        addSong(title: String, keysPlayed: [String]): Song
+        addSong(title: String, events: [String]): Song
     }
 `
 
@@ -30,10 +35,10 @@ const resolvers = {
     },
     Mutation: {
         addSong: (_, { title, keysPlayed }) => {
-            const newSong = { 
+            const newSong = {
                 id: songs.length + 1,
                 title,
-                keysPlayed,
+                song,
             };
             songs.push(newSong);
 
