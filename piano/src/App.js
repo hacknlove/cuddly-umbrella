@@ -7,8 +7,7 @@ import 'react-piano/dist/styles.css'
 import './App.scss'
 
 import MyPiano from './myPiano'
-
-
+import SongList from './SongList'
 class App extends React.Component {
   constructor (props) {
     super(props)
@@ -75,6 +74,9 @@ class App extends React.Component {
         <MyPiano
           ref={this.myPiano}
         />
+
+        <SongList />
+
       </div>
     )
   }
