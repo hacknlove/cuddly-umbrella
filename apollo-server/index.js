@@ -8,6 +8,11 @@ const typeDefs = gql`
         duration: Int
     }
 
+    input EventInput {
+        activeNotes: [Int],
+        duration: Int
+    }
+
     type Song {
         id: ID!
         title: String
@@ -19,7 +24,9 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        addSong(title: String, events: [String]): Song
+        addSong(title: String, events: [
+            EventInput
+        ]): Song
     }
 `
 
@@ -28,11 +35,11 @@ const resolvers = {
         songs: () => songs,
     },
     Mutation: {
-        addSong: (_, { title, keysPlayed }) => {
+        addSong: (_, { title, events }) => {
             const newSong = {
                 id: songs.length + 1,
                 title,
-                song,
+                events
             };
             songs.push(newSong);
 
