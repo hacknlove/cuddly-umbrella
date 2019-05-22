@@ -130,8 +130,8 @@ class MyPiano extends React.Component {
 
         this.newCurrentEvent(prevActiveNotes.filter(note => note !== midiNumber))
 
-        // there is a but (maybe race condition) in prevActiveNoter. Sometimes, the currently stoped notes can appear in prevActiveNotes at onPlayNoteInput.
-        // I use this to avoid that.
+        // there is a but (maybe race condition) in onPlayNoteInput/prevActiveNotes . Sometimes, a just now stoped not can be still included in onPlayNoteInput/prevActiveNotes.
+        // I use this to avoid that case.
         this.record.lastStop = midiNumber
     }
 
