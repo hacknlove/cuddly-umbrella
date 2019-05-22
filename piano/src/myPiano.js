@@ -1,7 +1,10 @@
 import React from 'react'
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano'
 import SoundfontProvider from './SoundfontProvider'
+import 'react-piano/dist/styles.css'
+import './myPiano.scss'
 
+import { trigger, listen, events } from './events'
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)()
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net'
@@ -21,42 +24,58 @@ class MyPiano extends React.Component {
         activeNotes: []
     }
 
+    componentDidMount = () => {
+        this.unlistStartRecord = listen(events.START_RECORD, () => {
+            this.startRecord()
+        })
+        this.unlistStopRecord = listen(events.STOP_RECORD, () => {
+            this.stopRecord()
+        })
+        this.unlistStartReproduction = listen(events.START_REPRODUCTION, (song) => {
+            this.startReproduction(song)
+        })
+        this.unlistStopReproduction = listen(events.STOP_REPRODUCTION, () => {
+            this.stopReproduction()
+        })
+    }
+
+    componentWillUnmount = () => {
+        this.unlistStartRecord()
+        this.unlistStopRecord()
+        this.unlistStartReproduction()
+        this.unlistStopReproduction()
+    }
+
     startReproduction = (song) => {
-        console.log(song)
         this.song = {
             events: song.events,
             index: 0
         }
         this.playNext()
+        trigger(events.REPRODUCTION_STARTED, song)
     }
     stopReproduction = () => {
-        this.song.pause = true
-        this.song.index = 0
-    }
-    pauseReproduction = () => {
-        this.song.pause = true
-    }
-    continueReproduction = () => {
-        this.song.pause = false
-        this.playNext()
+        delete this.song
+        trigger(events.REPRODUCTION_STOPED)
     }
     playNext = () => {
         const current = this.nextSongStep()
-        if (!current) {
-            return
-        }
         this.setState({
             activeNotes: current.activeNotes
         })
-        current.duration && setTimeout(this.playNext, current.duration)
+        if (current.duration) {
+            setTimeout(this.playNext, current.duration)
+        } else {
+            this.stopReproduction()
+        }
     }
     nextSongStep = () => {
-        if (this.song.pause) {
+        if (!this.song) {
             return {
                 activeNotes: []
             }
         }
-        return this.song.events[this.song.index++]
+        return this.song.events[this.song.index++] || { activeNotes: [] }
     }
 
     startRecord = () => {
@@ -67,6 +86,8 @@ class MyPiano extends React.Component {
                 activeNotes: []
             }
         }
+
+        trigger(events.RECORD_STARTED)
     }
 
     stopRecord = () => {
@@ -74,9 +95,8 @@ class MyPiano extends React.Component {
             return
         }
         this.finishCurrentEvent()
-        console.log(this.record)
 
-        return this.record.events
+        trigger(events.NEW_SONG_RECORDED, this.record.events)
     }
 
     finishCurrentEvent = () => {
@@ -118,17 +138,20 @@ class MyPiano extends React.Component {
                 audioContext={audioContext}
                 hostname={soundfontHostname}
                 render={({ isLoading, playNote, stopNote }) => (
-                    <Piano
-                        noteRange={this.noteRange}
-                        width={300}
-                        playNote={playNote}
-                        stopNote={stopNote}
-                        disabled={isLoading}
-                        activeNotes={this.state.activeNotes}
-                        keyboardShortcuts={this.keyboardShortcuts}
-                        onPlayNoteInput={this.onPlayNoteInput}
-                        onStopNoteInput={this.onStopNoteInput}
-                    />
+                    <div className="pianoContainer">
+                        <div className="piano">
+                            <Piano
+                                noteRange={this.noteRange}
+                                playNote={playNote}
+                                stopNote={stopNote}
+                                disabled={isLoading}
+                                activeNotes={this.state.activeNotes}
+                                keyboardShortcuts={this.keyboardShortcuts}
+                                onPlayNoteInput={this.onPlayNoteInput}
+                                onStopNoteInput={this.onStopNoteInput}
+                            />
+                        </div>
+                    </div>
                 )}
             />
         )
