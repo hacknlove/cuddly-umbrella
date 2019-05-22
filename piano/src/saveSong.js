@@ -30,7 +30,7 @@ class SaveSong extends Component {
                     <input
                         onChange={e => { this.setState({title: e.currentTarget.value})}}
                         type="text"
-                        placeholder="The title of the song"
+                        placeholder="Write here the title of your new song"
                     />
                     <Mutation
                         mutation={ADD_SONG}
