@@ -1,0 +1,8 @@
+#songList {
+    background: #f6f5f3;
+    margin: 3vh 3vw;
+    border-radius: 5px;
+    padding: 4vh 3vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
