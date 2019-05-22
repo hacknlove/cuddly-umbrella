@@ -116,7 +116,8 @@ class MyPiano extends React.Component {
         }
         this.finishCurrentEvent()
 
-        this.newCurrentEvent([midiNumber, ...prevActiveNotes])
+        this.newCurrentEvent([midiNumber, ...prevActiveNotes.filter(e => e !== this.record.lastStop)])
+        this.record.lastStop = undefined
     }
     onStopNoteInput = (midiNumber, { prevActiveNotes }) => {
         if (!this.record) {
@@ -125,10 +126,13 @@ class MyPiano extends React.Component {
         if (!prevActiveNotes.includes(midiNumber)) {
             return
         }
-
         this.finishCurrentEvent()
 
         this.newCurrentEvent(prevActiveNotes.filter(note => note !== midiNumber))
+
+        // there is a but (maybe race condition) in prevActiveNoter. Sometimes, the currently stoped notes can appear in prevActiveNotes at onPlayNoteInput.
+        // I use this to avoid that.
+        this.record.lastStop = midiNumber
     }
 
     render () {
@@ -138,7 +142,7 @@ class MyPiano extends React.Component {
                 audioContext={audioContext}
                 hostname={soundfontHostname}
                 render={({ isLoading, playNote, stopNote }) => (
-                    <div className="pianoContainer">
+                    <div id="piano">
                         <div className="piano">
                             <Piano
                                 noteRange={this.noteRange}
