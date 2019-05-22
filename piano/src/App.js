@@ -51,7 +51,7 @@ class App extends Component {
   }
 
   render () {
-    if (this.state.status === 'SAVING') {
+    if (true || this.state.status === 'SAVING') {
       return (<SaveSong song={this.song}/>)
     }
     return (

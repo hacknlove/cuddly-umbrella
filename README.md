@@ -2,30 +2,25 @@
 
 Build a small piano application that can play sounds, as well as store and retrieve sequences of played keys (songs).
 
-*If anything here is unclear or any questions come to your mind, don’t hesitate to contact us - we’re here for you!*
+## Implementation details
 
-## Implementation instructions
-
-- Focus on **clean, readable Code** and **Simplicity**
-- Use **React** for the Frontend
-- For the piano sounds you can use the [given files](#piano-sounds) files or any of your choice
+- I have focused on learn and understand the basics of React and Graphql, because I has never used them before.
+- It may no be as clean as It should, or I can even be doind weirds things instead of the common react practices.
+- I use a kiss and naîve event library, because I don't feel like learning redux, react, and graphql at the same time. It apperas to me that my code will end up very unclear and messy.
+- For the piano sounds I use https://github.com/danigb/soundfont-player
 
 ## Minimum requirements
 
-- Piano UI:
-    - Clickable black and white keys, which play a sound when clicked
-    - Visual feedback on touching the keys
+- Piano UI: (Every thing works out of the box with https://github.com/kevinsqi/react-piano)
+    [x] Clickable black and white keys, which play a sound when clicked
+    [x] Visual feedback on touching the keys
 - Song storage & playback functionality:
-    - Provide a button to start/stop recording a sequence of keys played on the Piano UI
-    - Define a song title when storing a song on stop recording
-    - Show a list of stored songs with title
-    - Enable replaying stored songs with a small play button next to the title
+    [x] Provide a button to start/stop recording a sequence of keys played on the Piano UI
+    [x] Define a song title when storing a song on stop recording
+    [x] Show a list of stored songs with title
+    [x] Enable replaying stored songs with a small play button next to the title
 
 ## Optional features
 
-- Enable **correct timing** of played keys for recording & playing songs
-- Store and retrieve the songs from a **GraphQL** server instead of from a local storage (sample server given here: [Apollo Server](apollo-server))
-
-## Piano Sounds
-
-The directory `grand-piano-mp3-sounds` contains sample sounds you can use for this task. Alternatively you can use sounds from `https://github.com/pffy/mp3-piano-sound` or other sample sounds of your preference.
+[x] Enable **correct timing** of played keys for recording & playing songs
+[x] Store and retrieve the songs from a **GraphQL** server instead of from a local storage (sample server given here: [Apollo Server](apollo-server))
