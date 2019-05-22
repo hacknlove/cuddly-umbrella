@@ -65,9 +65,7 @@ class App extends Component {
             <FontAwesomeIcon icon={faStopCircle} /> Stop Recording
           </button>
         </div>
-        <div id="piano">
-          <MyPiano/>
-        </div>
+        <MyPiano/>
       </div>
     )
   }
